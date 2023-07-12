@@ -1,1 +1,1 @@
-# grpc-sample
+# grpc-connect-sample
