@@ -8,6 +8,7 @@ import (
 	"github.com/omihirofumi/grpc-connect-sample/gen/chat/v1/chatv1connect"
 	"golang.org/x/net/http2"
 	"golang.org/x/net/http2/h2c"
+	"google.golang.org/protobuf/types/known/timestamppb"
 	"log"
 	"net/http"
 )
@@ -17,7 +18,8 @@ type ChatServer struct{}
 func (s *ChatServer) Say(ctx context.Context, req *connect.Request[chatv1.SayRequest]) (*connect.Response[chatv1.SayResponse], error) {
 	log.Println("Request headers: ", req.Header())
 	res := connect.NewResponse(&chatv1.SayResponse{
-		Sentence: fmt.Sprintf("I said %s", req.Msg.Sentence),
+		Sentence:    fmt.Sprintf("I said %s", req.Msg.Sentence),
+		RespondedAt: timestamppb.Now(),
 	})
 	res.Header().Set("Chat-Version", "v1")
 	return res, nil
